@@ -20,6 +20,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let args = Cli::parse();
     let client = Client::new();
 
+    let done_folder = Path::new("./uploaded");
+    fs::create_dir_all(done_folder)?;
+
     let entries = fs::read_dir(args.path)?;
     for entry in entries {
         let entry = entry?;
@@ -39,15 +42,13 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             Part::bytes(file_content).file_name(file_name.clone()),
         );
 
-        let request_builder = client
+        let response = client
             .post(upload_url)
             .multipart(form)
-            .bearer_auth(&args.access_token);
-        let response = request_builder.send()?;
+            .bearer_auth(&args.access_token)
+            .send()?;
 
         if response.status().is_success() {
-            let done_folder = Path::new("./uploaded");
-            fs::create_dir_all(done_folder)?;
             let new_file_path = done_folder.join(file_name.clone());
             fs::rename(file_path, &new_file_path)?;
 
