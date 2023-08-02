@@ -1,6 +1,6 @@
 # GPX to Strava
 
-This small script helps you upload gpx file in bulk to Strava. 
+This small script helps you upload gpx files in bulk to Strava. 
 
 # Prerequisites
 In order for this script to work, you need a `access_token` with `activity:write` permissions. Getting it is simple:
@@ -70,3 +70,5 @@ Strava has a limit of 200 requests every 15 minutes, and a maximum of 2000 reque
 ## Garmin Connect
 https://github.com/pe-st/garmin-connect-export
 
+# License
+MIT
